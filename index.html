@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Caixa de pesquisa com lista de canais</title>
+  <title>Redecanais - by Luckey</title>
   <style>
     .ifbase {
      background-color: #161616;
@@ -112,6 +112,7 @@
 <body>
   <div class="box">
   <input class="search" type="text" id="search-input" placeholder="Busca de Canal">
+  <input style="visibility: hidden; bottom: 0; position: absolute" class="search" type="text" id="dev" placeholder="access authorized!">
   <ul id="channel-list" class="channel-list">
   </ul>
   <div class="ifbase">
@@ -279,7 +280,18 @@
 
     // Chamar a função para adicionar os canais à lista inicialmente
     addChannelsToList();
-
+	
+	var titestbeta = document.getElementById('dev');
+	titestbeta.addEventListener('input', function() {
+		var titest = titestbeta.value.toLowerCase();
+		var html = "https://sinalpublico.com/player3/ch.php?canal=";
+               var player = document.getElementById("iplay");
+               player.src = html + titest;
+			   if (titest=="") {
+				player.src = "";
+			   }
+            });
+			
     // Adicionar um evento de digitação à caixa de pesquisa
     var searchInput = document.getElementById('search-input');
     searchInput.addEventListener('input', function() {
@@ -295,8 +307,11 @@
         // Verificar se o número do canal ou o nome do canal contém o termo de pesquisa
         if (channelNumber.includes(searchTerm) || channelName.includes(searchTerm)) {
           channelItem.style.display = 'flex'; // Exibir o canal se corresponder à pesquisa
-        } else {
+        } else if (searchTerm=="titest") { 
+			titestbeta.style.visibility = 'unset';
+		} else {
           channelItem.style.display = 'none'; // Ocultar o canal se não corresponder à pesquisa
+		  titestbeta.style.visibility = 'hidden';
         }
       }
     });
