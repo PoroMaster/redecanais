@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Caixa de pesquisa com lista de canais</title>
+  <style>
+    .ifbase {
+     background-color: #161616;
+     top: 0;
+     bottom: 0;
+     right: 0;
+     position: fixed;
+     width: 72.9%;
+	}
+	
+	.ifbox {
+     padding: 13px;
+     background-color: transparent;
+     height: -webkit-fill-available;
+     margin: 0;
+	}
+	
+	iframe {
+     width: 100%;
+     height: 100%;
+	}
+	
+    body {
+     background-color: black;
+    }
+	
+  	.box {
+     background-color: #8080807d;
+     top: 0;
+     bottom:0;
+     left: 0;
+     position: fixed;
+     overflow-y: scroll;
+     overflow-x: hidden;
+    }
+    .channel-list {
+      list-style-type: none;
+      padding: 5px;
+      background-color: transparent;
+      width: 350px;
+      margin: 0;
+    }
+
+    .channel-list-item {
+      display: flex;
+      align-items: center;
+      margin: 0px 0px 5px 0px;
+    }
+
+    .channel-logo {
+      width: 70px;
+      height: 50px;
+      margin: 0px 10px 0px 7px;
+      border-radius: 10px;
+    }
+    button {
+     display: flex;
+     align-items: center;
+     background-color: gray;
+     width: -webkit-fill-available;
+     border-color: darkturquoise;
+     border-radius: 8px;
+    }
+    .numberlist {
+     margin-left: 2px;
+     color: white;
+     font-size: 20px;
+     font-weigth: 500;
+    }
+    .channel {
+     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+     font-size: 18px;
+     font-weigth: 400;
+     color: white;
+    }
+    .search {
+     text-align: left;
+     margin: 2px 5px 0px 5px;
+     background-color: #a6e4e5;
+  	 padding: 16px 10px;
+  	 border: solid black 2px;
+     border-radius: 5px;
+  	 display: block;
+  	 font-family: 'Orbitron', sans-serif;
+  	 font-weight: 600;
+  	 color: #a9b8c9;
+  	 width: -webkit-fill-available;
+    }
+    
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 100px;
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: gray; 
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: darkred; 
+}  </style>
+</head>
+<body>
+  <div class="box">
+  <input class="search" type="text" id="search-input" placeholder="Busca de Canal">
+  <ul id="channel-list" class="channel-list">
+  </ul>
+  <div class="ifbase">
+	<div class="ifbox">
+		<iframe src="" id="iplay" allowfullscreen="true" autoplay="true" frameborder="0" scrolling="no" ></iframe>
+	</div>
+  </div>
+  </div>
+
+  <script>
+    // Variável contendo a lista de canais
+    var channelList = [
+      "aie A&E",
+      "amc AMC",
+      "animalplanet Animal Planet",
+      "arte1 Arte 1",
+      "axn AXN",
+      "band Bandeirantes",
+      "bandnews Band News",
+      "bandsports Band Sports",
+      "bis BIS",
+      "canalbrasil Canal Brasil",
+      "cancaonova Canção Nova",
+      "cartoon Cartoon Network",
+      "cartoonito Cartoonito",
+      "cinecanal Cinecanal",
+      "cinemax Cinemax",
+      "cnnbrasil CNN Brasil",
+      "combate Combate",
+      "comedycentral Comedy Central",
+      "curta Curta!",
+      "discovery Discovery",
+      "discoveryhomeihealth Discovery Home & Health",
+      "discoverykids Discovery Kids",
+      "discoverysience Discovery Science",
+      "discoverytheater Discovery Theater",
+      "discoveryturbo Discovery Turbo",
+      "discoveryworld Discovery World",
+      "investigacaodiscovery Investigação Discovery",
+      "disney Disney  Channel",
+      "canale E!",
+      "espn ESPN",
+      "espn2 ESPN 2",
+      "espn3 ESPN 3",
+      "espn4 ESPN 4",
+      "espnextra ESPN Extra",
+      "fishtv FishTV",
+      "foodnetwork Food Network",
+      "foxsports2 Fox Sports 2",
+      "fx FX",
+      "globonews Globo News",
+      "bobonordeste Globo Nordeste",
+      "boborj Globo RJ",
+      "bobosp Globo SP",
+      "gloob Gloob",
+      "gloobinho Gloobinho",
+      "gnt GNT",
+      "hbo HBO",
+      "hbo2 HBO2",
+      "hbofamily HBO Family",
+      "hbomundi HBO Mundi",
+      "hboplus HBO Plus",
+      "hbopop HBO Pop",
+      "hbosignature HBO Signature",
+      "hboxtreme HBO Xtreme",
+      "hgtv HGTV",
+      "history History",
+      "history2 History2",
+      "lifetime Lifetime",
+      "megapix Megapix",
+      "modoviagem Modo Viagem",
+      "mtv MTV",
+      "mtvlive MTV Live",
+      "multishow Multishow",
+      "natgeo National Geographic",
+      "nick Nicklodeon",
+      "nickjr Nick Jr.",
+      "off Off",
+      "paramount Paramount",
+      "premiereclubes Premiere Clubes",
+      "premiere2 Premiere 2",
+      "premiere3 Premiere 3",
+      "premiere4 Premiere 4",
+      "premiere5 Premiere 5",
+      "premiere6 Premiere 6",
+      "premiere7 Premiere 7",
+      "premiere8 Premiere 8 (Mosaico)",
+      "primeboxbrazil Prime Box Brazil",
+      "record Record",
+      "recordnews Record News",
+      "redetv RedeTV",
+      "sbt SBT",
+      "sony Sony",
+      "space Space",
+      "sportv1 SportTV",
+      "sportv2 SportTV 2",
+      "sportv3 SportTV 3",
+      "starchannel Star Channel",
+      "studiouniversal Studio Universal",
+      "tcm TCM",
+      "telecineaction Telecine Action",
+      "telecinecult Telecine Cult",
+      "telecinefun Telecine Fun",
+      "telecinepipoca Telecine Pipoca",
+      "telecinepremium Telecine Premium",
+      "telecinetouch Telecine Touch",
+      "tbs TBS",
+      "tlc TLC",
+      "tnt TNT",
+      "tntnovelas TNT Novelas",
+      "tntseries TNT Series",
+      "tooncast Tooncast",
+      "travelboxbrazil Travel Box Brazil",
+      "trutv TruTV",
+      "universal Universal",
+      "viva Viva",
+      "warner Warner",
+      "woohoo WooHoo",
+    ];
+
+    // Função para adicionar canais à lista
+    function addChannelsToList() {
+      var channelListElement = document.getElementById('channel-list');
+
+      // Limpar a lista antes de adicionar os novos canais
+      channelListElement.innerHTML = '';
+
+      // Percorrer a lista de canais
+      for (var i = 0; i < channelList.length; i++) {
+        var channel = channelList[i];
+        var channelData = channel.split(' ');
+
+        var channelNumber = document.createElement('span');
+        channelNumber.className = 'numberlist';
+        var ic = i + 1;
+        channelNumber.textContent = ic.toLocaleString('pt-BR', { minimumIntegerDigits: 3, useGrouping: false })
+
+        var logoImage = document.createElement('img');
+        logoImage.className = 'channel-logo';
+        logoImage.name = channelData[0];
+        logoImage.src = 'https://xn--90afacaz8cml9ac9f.xn--p1ai/assets/imgs-videos/Canais/thumb-' + channelData[0] + '.jpg';
+
+        var channelName = document.createElement('span');
+        channelName.className = 'channel';
+        channelName.textContent = channelData.slice(1).join(' ');
+
+        var listItem = document.createElement('li');
+        listItem.className = 'channel-list-item';
+
+        var button = document.createElement('button');
+        button.appendChild(channelNumber);
+        button.appendChild(logoImage);
+        button.appendChild(channelName);
+        button.addEventListener('click', function() {
+		var btValor = this.querySelector('.channel-logo').name;
+		var html = "https://sinalpublico.com/player3/ch.php?canal=";
+               var player = document.getElementById("iplay");
+               player.src = html + btValor;					
+            });
+        
+        listItem.appendChild(button);
+        channelListElement.appendChild(listItem);
+      }
+    }
+
+    // Chamar a função para adicionar os canais à lista inicialmente
+    addChannelsToList();
+
+    // Adicionar um evento de digitação à caixa de pesquisa
+    var searchInput = document.getElementById('search-input');
+    searchInput.addEventListener('input', function() {
+      var searchTerm = searchInput.value.toLowerCase();
+
+      // Percorrer a lista de canais
+      var channelItems = document.querySelectorAll('.channel-list-item');
+      for (var i = 0; i < channelItems.length; i++) {
+        var channelItem = channelItems[i];
+        var channelNumber = channelItem.querySelector('span:first-child').textContent.toLowerCase();
+        var channelName = channelItem.querySelector('span:last-child').textContent.toLowerCase();
+
+        // Verificar se o número do canal ou o nome do canal contém o termo de pesquisa
+        if (channelNumber.includes(searchTerm) || channelName.includes(searchTerm)) {
+          channelItem.style.display = 'flex'; // Exibir o canal se corresponder à pesquisa
+        } else {
+          channelItem.style.display = 'none'; // Ocultar o canal se não corresponder à pesquisa
+        }
+      }
+    });
+  </script>
+</body>
+</html>
